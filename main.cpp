@@ -14,7 +14,7 @@ int main()
     cout << "done" << "\n";
 
     // load data from .csv file & organize into graph (adjacency list & adjacency matrix)
-    ifstream csv("Severe_Accident_Database.csv");
+    ifstream csv("New_Severe_Accident_Database.csv");
     if (csv.is_open())
     {
         cout << "true" << "\n";
