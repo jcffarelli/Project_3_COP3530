@@ -59,7 +59,7 @@ void performSearch(vector<pair<string, string>> &edge_list, unordered_map<string
 
 }
 
-// Function to load the dataset into both Graph and BTree
+// Function to load the dataset into both edge list and adjacency list
 void loadDataset(vector<pair<string, string>> &edge_list, unordered_map<string, vector<string>> &adjacency_list) {
     try {
 
