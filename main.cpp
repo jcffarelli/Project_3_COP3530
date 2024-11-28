@@ -10,61 +10,53 @@ using namespace std;
 // written by... Alexander Langner, Joseph Ciffarelli, & Khizar Khan... for COP3530!
 int main()
 {
-    unordered_map<string, string> adjacency_list;
-    cout << "done" << "\n";
+    // initialize the edge list & adjacency list
+    vector<pair<string, string>> edge_list;
+    unordered_map<string, vector<string>> adjacency_list;
 
-    // load data from .csv file & organize into graph (adjacency list & adjacency matrix)
+    // load data from .csv file & organize into a graph (use both edge list & adjacency list)
+    // first, initialize variables & prepare to read the file
     ifstream csv("Severe_Accident_Database.csv");
-    if (csv.is_open())
-    {
-        cout << "true" << "\n";
-    }
-    string current_line;
-    cout << "done" << "\n";
+    string line;
+    getline(csv, line);
+    stringstream stream(line);
+    string element;
 
-    if (csv.good())
+    // then store the categories (state, city, time, & weather, NOT ID) into the edge list & adjacency list
+    vector<string> categories;
+    adjacency_list["Categories"];
+    getline(stream, element, ',');
+    while (getline(stream, element, ','))
     {
-        cout << "true" << "\n";
-    }
-
-    while (getline(csv, current_line))
-    {
-        cout << current_line << "\n";
-    }
-
-    if (csv.is_open())
-    {
-        cout << "true" << "\n";
+        categories.push_back(element);
+        edge_list.emplace_back("Categories", element);
+        adjacency_list["Categories"].push_back(element);
+        adjacency_list[element];
     }
 
-    /*
-    vector<string> current_row;
-    stringstream stream(current_line);
-    string current_cell;
-    while (getline(stream, current_cell, ','))
+    // finally, go through the database and construct the edge list & adjacency list!
+    while (getline(csv, line))
     {
-        current_row.push_back(current_cell);
-        cout << "done" << "\n";
-    }
-
-    for (const auto & i : current_row)
-    {
-        cout << i << " ";
-        cout << "done" << "\n";
-    }
-
-    while (getline(csv, current_line))
-    {
-        vector<string> current_row;
-        stringstream stream(current_line);
-        string current_cell;
-
-        while (getline(stream, current_cell, ','))
+        int column = 0;
+        stringstream substream(line);
+        string ID, subelement;
+        getline(substream, ID, ',');
+        while (getline(substream, subelement, ','))
         {
-            current_row.push_back(current_cell);
+            if (adjacency_list.find(subelement) == adjacency_list.end())
+            {
+                edge_list.emplace_back(categories[column], subelement);
+                adjacency_list[categories[column]].push_back(subelement);
+            }
+            edge_list.emplace_back(subelement, ID);
+            edge_list.emplace_back(ID, subelement);
+            adjacency_list[subelement].push_back(ID);
+            adjacency_list[ID].push_back(subelement);
+            column++;
         }
     }
 
+    /*
     // code for recording time
     auto start = chrono::high_resolution_clock::now();
     auto stop = chrono::high_resolution_clock::now();
