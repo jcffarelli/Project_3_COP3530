@@ -4,4 +4,7 @@ Hello! Welcome to our Project 3 repository: Factors of Severe Car Accidents! To 
 
 Important note: Make sure that you download the whole repository, including "CMakeLists.txt" and "Severe_Accident_Database.csv", as "main.cpp" won't work without these other files.
 
-*How to Use the Program:
+How to Use the Program:
+1)
+2)
+3)
