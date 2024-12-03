@@ -19,14 +19,7 @@ void displayMenu() {
     cout << "Enter your choice:";
 }
 
-// Helper function
-// string getValidatedInput(const string &prompt) {
-//     string input;
-//     cout << prompt;
-//     cin.ignore();
-//     getline(cin, input);
-//     return input.empty() ? "All" : input; // Default to "All" if no input is provided
-// }
+
 // Helper function to get validated user input
 string getValidatedInput(const string &prompt) {
     string input;
