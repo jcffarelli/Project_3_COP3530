@@ -5,6 +5,8 @@
 #include <vector>
 #include <string>
 // #include <chrono>
+#include <algorithm>
+#include <limits>
 using namespace std;
 // using namespace chrono;
 
@@ -18,12 +20,23 @@ void displayMenu() {
 }
 
 // Helper function
+// string getValidatedInput(const string &prompt) {
+//     string input;
+//     cout << prompt;
+//     cin.ignore();
+//     getline(cin, input);
+//     return input.empty() ? "All" : input; // Default to "All" if no input is provided
+// }
+// Helper function to get validated user input
 string getValidatedInput(const string &prompt) {
     string input;
     cout << prompt;
-    cin.ignore();
+
+    // Clear the input buffer
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    transform(input.begin(), input.end(), input.begin(), ::tolower);
     getline(cin, input);
-    return input.empty() ? "All" : input; // Default to "All" if no input is provided
+    return input.empty() ? "all" : input; // Default to "All" if no input is provided
 }
 
 // Function to perform a search based on user input
