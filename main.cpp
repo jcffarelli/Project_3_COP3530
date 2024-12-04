@@ -36,17 +36,6 @@ int min(vector<size_t> s){
     return min;
 }
 
-// returns bool of find condition
-bool find(vector<string> s, string t) {
-    for(auto it : s) {
-        if (it == t) {
-            return true;
-        }
-    }
-    return false;
-}
-
-
 // Function to perform a search based on user input
 void performSearch(vector<pair<string, string>> &edge_list, unordered_map<string, vector<string>> &adjacency_list) {
 
