@@ -27,7 +27,7 @@ To run our code, clone the repository or download it as a `.zip` file through Gi
 3. **Run the Program**:
    - Execute the compiled binary:
      ```bash
-     ./Project3_COP3530
+     ./Project_3_COP3530
      ```
 
 4. **Follow the Menu**:
