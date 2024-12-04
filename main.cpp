@@ -4,11 +4,9 @@
 #include <sstream>
 #include <vector>
 #include <string>
-// #include <chrono>
-#include <algorithm>
-#include <limits>
+#include <chrono>
 using namespace std;
-// using namespace chrono;
+using namespace chrono;
 
 // Function to display the main menu
 void displayMenu() {
@@ -19,17 +17,23 @@ void displayMenu() {
     cout << "Enter your choice:";
 }
 
-
-// Helper function to get validated user input
+// Helper function
 string getValidatedInput(const string &prompt) {
     string input;
     cout << prompt;
+    getline(cin, input, '\n');
+    return input.empty() ? "All" : input; // Default to "All" if no input is provided
+}
 
-    // Clear the input buffer
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    transform(input.begin(), input.end(), input.begin(), ::tolower);
-    getline(cin, input);
-    return input.empty() ? "all" : input; // Default to "All" if no input is provided
+// returns index of min value in list
+int min(vector<size_t> s){
+    int min = 0;
+    for (size_t i = 1; i < s.size(); i++) {
+        if (s[i] < s[min]) {
+            min = i;
+        }
+    }
+    return min;
 }
 
 // Function to perform a search based on user input
@@ -41,26 +45,85 @@ void performSearch(vector<pair<string, string>> &edge_list, unordered_map<string
     string timeOfDay = getValidatedInput("Enter Time of Day (Day, Night, or 'All'):");
     string weather = getValidatedInput("Enter Weather Condition (see README for list, or choose 'All'):");
 
-    /* Query Edge List
-    auto startGraph = high_resolution_clock::now();
-    int graphResult = graph.query(state, city, timeOfDay, weather);
-    auto endGraph = high_resolution_clock::now();
-    auto graphQueryTime = duration_cast<milliseconds>(endGraph - startGraph).count();
-     */
+    // Adjacency List Search
+    // start timer
+    auto startAdList = high_resolution_clock::now();
+    // puts each category in a vector
+    vector<string> categories = {state, city, timeOfDay, weather};
+    vector<size_t> sizes;
+    for(int i = 0; i < categories.size(); i++) {
+        // if category is 'All', push_back total size
+        if(categories[i] == "All") {
+            sizes.push_back(204710);
+        }
+        // push_back out-degree of category
+        else {
+            sizes.push_back(adjacency_list[categories[i]].size());
+        }
+    }
+    // IDs that match the search
+    int ad_matched = 0;
+    int minimum = min(sizes);
+    if(categories[minimum] == "All") {
+        for(auto it: adjacency_list["State"]) {
+            ad_matched = 204710;
+        }
+    }
+    else {
+        for(auto it: adjacency_list[categories[minimum]]) {
+            // Checks State
+            if(categories[0] != "All" && categories[0] != adjacency_list[it][0]) {
+                continue;
+            }
+            // Checks City
+            else if(categories[1] != "All" && categories[1] != adjacency_list[it][1]) {
+                continue;
+            }
+            // Checks Time of Day
+            else if(categories[2] != "All" && categories[2] != adjacency_list[it][2]) {
+                continue;
+            }
+            // Checks Weather
+            else if(categories[3] != "All" && categories[3] != adjacency_list[it][3]) {
+                continue;
+            }
+            ad_matched += 1;
+        }
+    }
+    // stop timer
+    auto endAdList = high_resolution_clock::now();
 
-    /* Query Adjacency List
-    auto startBTree = high_resolution_clock::now();
-    int bTreeResult = bTree.query(state, city, timeOfDay, weather);
-    auto endBTree = high_resolution_clock::now();
-    auto bTreeQueryTime = duration_cast<milliseconds>(endBTree - startBTree).count();
-     */
+    // timer count in microseconds
+    auto AdListTime = duration_cast<milliseconds>(endAdList - startAdList);
+
+
+    // Edge List Search
+    // start timer
+    auto startEdgeList = high_resolution_clock::now();
+    int edge_matched = 0;
+    // if all categories are all, return total num
+    if(categories[minimum] == "All") {
+        edge_matched = 204710;
+    }
+    else {
+        for(int i = 4; i < edge_list.size(); i++) {
+            break;
+        }
+    }
+    cout << (edge_list.size() - 4) / 12 << endl;
+
+    // end timer
+    auto endEdgeList = high_resolution_clock::now();
+
+    // timer count in microseconds
+    auto edgeListTime = duration_cast<milliseconds>(endEdgeList - startEdgeList);
 
     // Display results!
     cout << "\n==== Search Results ====" << endl;
     cout << "Conditions: State - " << state << ", City - " << city
          << ", Time of Day - " << timeOfDay << ", Weather - " << weather << endl;
-    cout << "Graph Result: " << 0 << " accidents, Time: " << 0 << "ms" << endl;
-    cout << "BTree Result: " << 0 << " accidents, Time: " << 0 << "ms" << endl;
+    cout << "Adjacency List Result: " << ad_matched << " accidents, Time: " <<  AdListTime.count() << "ms" << endl;
+    cout << "Edge List Result: " << edge_matched << " accidents, Time: " << edgeListTime.count() << "ms" << endl;
     cout << "\nReturning to main menu..." << endl;
 
 }
@@ -74,7 +137,7 @@ void loadDataset(vector<pair<string, string>> &edge_list, unordered_map<string, 
 
         // load data from .csv file & organize into a graph (use both edge list & adjacency list)
         // first, initialize variables & prepare to read the file
-        ifstream csv("Severe_Accident_Database.csv");
+        ifstream csv("../Severe_Accident_Database.csv");
         string line;
         getline(csv, line);
         stringstream stream(line);
@@ -133,10 +196,18 @@ int main()
     // load menu and begin main program!
     while (true) {
         displayMenu();
-        int choice;
-        cin >> choice;
+        string choice;
+        int option;
+        // changed to help format and handle errors better
+        getline(cin, choice, '\n');
+        try {
+            option = stoi(choice);
+        }
+        catch(invalid_argument){
+            option = 4;
+        }
 
-        switch (choice) {
+        switch (option) {
             case 1: // Perform Search
                 performSearch(edge_list, adjacency_list);
                 break;
