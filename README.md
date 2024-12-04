@@ -61,4 +61,3 @@ This project was developed by:
 - **Khizar Khan**
 
 Thank you for checking out our project! If you encounter any issues or have suggestions for improvement, feel free to reach out.
-"""
