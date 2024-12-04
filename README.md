@@ -6,6 +6,10 @@ To run our code, clone the repository or download it as a `.zip` file through Gi
 
 **Important Note**: Make sure that you download the entire repository, including `CMakeLists.txt` and `Severe_Accident_Database.csv`, as `main.cpp` depends on these files to function correctly.
 
+## The subcategories for Weather_Condition:
+Blowing Dust / Windy, Blowing Snow, Blowing Snow / Windy, Clear, Cloudy, Cloudy / Windy, Drifting Snow / Windy, Drizzle, Drizzle and Fog,
+Fair, Fair / Windy, Fog, Fog / Windy, Freezing Rain, Freezing Rain / Windy, Funnel Cloud, Hail, Haze, Haze / Windy, Heavy Drizzle, Heavy, Rain, Heavy Rain / Windy, Heavy Snow, Heavy Snow / Windy, Heavy Snow with Thunder, Heavy Thunderstorms and Rain, Heavy Thunderstorms and Snow, Heavy T-Storm, Heavy T-Storm / Windy, Ice Pellets, Light Blowing Snow, Light Drizzle, Light Drizzle / Windy, Light Freezing Drizzle, Light Freezing Fog, Light Freezing Rain, Light Freezing Rain / Windy, Light Ice Pellets, Light Rain, Light Rain / Windy, Light Rain Shower, Light Rain Showers, Light Rain with Thunder, Light Sleet, Light Snow, Light Snow / Windy, Light Snow and Sleet, Light Snow Shower, Light Snow Showers, Light Snow with Thunder, Light Thunderstorms and Rain, Light Thunderstorms and Snow, Mist, Mostly Cloudy, Mostly Cloudy / Windy, N/A, Precipitation, Overcast, Partial Fog, Partly Cloudy, Partly Cloudy / Windy, Patches of Fog, Patches of Fog / Windy, Rain, Rain / Windy, Rain Shower, Rain Showers, Sand / Dust Whirlwinds, Scattered Clouds, Shallow Fog, Showers in the Vicinity, Sleet, Small Hail, Smoke, Smoke / Windy, Snow, Snow / Windy, Snow and Sleet, Squalls, Squalls / Windy, Thunder, Thunder / Windy, Thunder / Wintry Mix, Thunder in the Vicinity, Thunderstorm, Thunderstorms and Rain, Tornado, T-Storm, T-Storm / Windy, Widespread Dust, Wintry Mix, Wintry Mix / Windy
+
 ## How to Use the Program
 1. **Clone or Download**:
    - Clone the repository:
