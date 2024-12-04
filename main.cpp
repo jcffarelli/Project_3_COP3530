@@ -66,7 +66,7 @@ void performSearch(vector<pair<string, string>> &edge_list, unordered_map<string
     int minimum = min(sizes);
     if(categories[minimum] == "All") {
         for(auto it: adjacency_list["State"]) {
-            ad_matched = 204710;
+            ad_matched += adjacency_list[it].size();
         }
     }
     else {
@@ -103,14 +103,43 @@ void performSearch(vector<pair<string, string>> &edge_list, unordered_map<string
     int edge_matched = 0;
     // if all categories are all, return total num
     if(categories[minimum] == "All") {
-        edge_matched = 204710;
-    }
-    else {
-        for(int i = 4; i < edge_list.size(); i++) {
-            break;
+        for(auto it: adjacency_list["State"]) {
+            edge_matched += adjacency_list[it].size();
         }
     }
-    cout << (edge_list.size() - 4) / 12 << endl;
+    else {
+        for(int i = 4; i < edge_list.size();) {
+            string temp_state, temp_city, temp_time, temp_weather;
+            temp_state = edge_list[i].second;
+            i++;
+            while(edge_list[i].first != "State") {
+                if(edge_list[i].first == "City") {
+                    temp_city = edge_list[i].second;
+                }
+                else if(edge_list[i].first == "Sunrise_Sunset") {
+                    temp_time = edge_list[i].second;
+                }
+                else if(edge_list[i].first == "Weather_Condition") {
+                    temp_weather = edge_list[i].second;
+                }
+                i++;
+            }
+            if(temp_state != state && state != "All") {
+                continue;
+            }
+            else if(temp_city != city && city != "All") {
+                continue;
+            }
+            else if(temp_time != timeOfDay && timeOfDay != "All") {
+                continue;
+            }
+            else if(temp_weather != weather && weather != "All") {
+                continue;
+            }
+            edge_matched++;
+        }
+    }
+
 
     // end timer
     auto endEdgeList = high_resolution_clock::now();
