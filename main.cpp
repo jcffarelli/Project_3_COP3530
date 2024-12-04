@@ -36,6 +36,17 @@ int min(vector<size_t> s){
     return min;
 }
 
+// returns bool of find condition
+bool find(vector<string> s, string t) {
+    for(auto it : s) {
+        if (it == t) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
 // Function to perform a search based on user input
 void performSearch(vector<pair<string, string>> &edge_list, unordered_map<string, vector<string>> &adjacency_list) {
 
@@ -94,7 +105,7 @@ void performSearch(vector<pair<string, string>> &edge_list, unordered_map<string
     auto endAdList = high_resolution_clock::now();
 
     // timer count in microseconds
-    auto AdListTime = duration_cast<milliseconds>(endAdList - startAdList);
+    auto AdListTime = duration_cast<microseconds>(endAdList - startAdList);
 
 
     // Edge List Search
@@ -108,35 +119,28 @@ void performSearch(vector<pair<string, string>> &edge_list, unordered_map<string
         }
     }
     else {
-        for(int i = 4; i < edge_list.size();) {
-            string temp_state, temp_city, temp_time, temp_weather;
-            temp_state = edge_list[i].second;
-            i++;
-            while(edge_list[i].first != "State") {
-                if(edge_list[i].first == "City") {
-                    temp_city = edge_list[i].second;
-                }
-                else if(edge_list[i].first == "Sunrise_Sunset") {
-                    temp_time = edge_list[i].second;
-                }
-                else if(edge_list[i].first == "Weather_Condition") {
-                    temp_weather = edge_list[i].second;
-                }
-                i++;
+        unordered_map<string, int> frequency;
+        int count = 4;
+        for(auto i: categories) {
+            if(i == "All") {
+                count--;
             }
-            if(temp_state != state && state != "All") {
-                continue;
+        }
+        for(auto i: edge_list) {
+            if(frequency.find(i.first) == frequency.end()) {
+                frequency[i.first] = 0;
             }
-            else if(temp_city != city && city != "All") {
-                continue;
+            if(i.second == state || i.second == city || i.second == timeOfDay || i.second == weather) {
+                frequency[i.first] += 1;
             }
-            else if(temp_time != timeOfDay && timeOfDay != "All") {
-                continue;
+        }
+        for(auto it = frequency.begin(); it != frequency.end(); it++) {
+            if(it->second == count) {
+                edge_matched++;
             }
-            else if(temp_weather != weather && weather != "All") {
-                continue;
-            }
-            edge_matched++;
+        }
+        if(count == 1 && edge_matched > 0) {
+            edge_matched--;
         }
     }
 
@@ -145,14 +149,14 @@ void performSearch(vector<pair<string, string>> &edge_list, unordered_map<string
     auto endEdgeList = high_resolution_clock::now();
 
     // timer count in microseconds
-    auto edgeListTime = duration_cast<milliseconds>(endEdgeList - startEdgeList);
+    auto edgeListTime = duration_cast<microseconds>(endEdgeList - startEdgeList);
 
     // Display results!
     cout << "\n==== Search Results ====" << endl;
     cout << "Conditions: State - " << state << ", City - " << city
          << ", Time of Day - " << timeOfDay << ", Weather - " << weather << endl;
-    cout << "Adjacency List Result: " << ad_matched << " accidents, Time: " <<  AdListTime.count() << "ms" << endl;
-    cout << "Edge List Result: " << edge_matched << " accidents, Time: " << edgeListTime.count() << "ms" << endl;
+    cout << "Adjacency List Result: " << ad_matched << " accidents, Time: " <<  AdListTime.count() << " microseconds" << endl;
+    cout << "Edge List Result: " << edge_matched << " accidents, Time: " << edgeListTime.count() << " microseconds" << endl;
     cout << "\nReturning to main menu..." << endl;
 
 }
